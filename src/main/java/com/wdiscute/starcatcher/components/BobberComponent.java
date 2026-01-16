@@ -1,4 +1,4 @@
-package com.wdiscute.starcatcher.component;
+package com.wdiscute.starcatcher.components;
 
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.Component;
@@ -7,7 +7,6 @@ import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.protocol.AnimationSlot;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.AnimationUtils;
-import com.hypixel.hytale.server.core.entity.ItemUtils;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
