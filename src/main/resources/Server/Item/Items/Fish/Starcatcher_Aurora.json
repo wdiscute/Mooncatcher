@@ -1,7 +1,7 @@
 {
   "TranslationProperties": {
-    "Name": "items.Aurora.name",
-    "Description": "Aurora"
+    "Name": "items.Starcatcher_Aurora.name",
+    "Description": "starcatcher.Starcatcher_Aurora.description"
   },
   "Icon": "Icons/ItemsGenerated/Aurora.png",
   "Model": "Items/fish/Aurora.blockymodel",
@@ -10,7 +10,7 @@
   "MaxStack": 1,
   "ItemLevel": 3,
   "Categories": [
-    "Items.Tools"
+    "Items.Foods"
   ],
   "Tags": {
     "Type": [

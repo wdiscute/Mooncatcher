@@ -22,5 +22,9 @@
         }
       ]
     }
+  },
+  "TranslationProperties": {
+    "Name": "items.Starcatcher_Rod.name",
+    "Description": "starcatcher.Starcatcher_Rod.description"
   }
 }

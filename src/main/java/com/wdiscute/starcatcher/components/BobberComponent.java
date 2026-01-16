@@ -172,7 +172,6 @@ public class BobberComponent implements Component<EntityStore>
             //todo item should be awarded on minigame
             if (!is.isEmpty())
             {
-                HeadRotation bobberHeadRotation = store.getComponent(bobberRef, HeadRotation.getComponentType());
                 Vector3d bobberPos = store.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone();
                 Vector3d playerPos = store.getComponent(playerRef, TransformComponent.getComponentType()).getPosition().clone();
 
@@ -197,10 +196,6 @@ public class BobberComponent implements Component<EntityStore>
                 );
 
                 store.addEntity(itemEntityHolder, AddReason.SPAWN);
-
-                //bobberHeadRotation.setRotation(new Vector3f(45F, (float) yaw, 0));
-                //ItemUtils.throwItem(bobberRef, is, (float) dif.length() * 2, store);
-                player.sendMessage(Message.translation("gonefishing.caughtFish").color(Color.GREEN).param("fish", Message.translation(is.getItem().getTranslationKey())));
             }
             //todo here it should return; so it doesnt remove entity and component whilst minigame is happening
         }

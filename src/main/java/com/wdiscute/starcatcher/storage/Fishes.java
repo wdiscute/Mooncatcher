@@ -24,7 +24,7 @@ public class Fishes
 
     public static void setup()
     {
-        register(overworldZone1Fish("Aurora")
+        register(overworldZone1Fish("Starcatcher_Aurora")
                 .withSizeAndWeight(FishProperties.sizeWeight(17.7f, 5, 1200, 200))
         );
 

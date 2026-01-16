@@ -22,18 +22,16 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.wdiscute.starcatcher.components.BobberComponent;
-import com.wdiscute.starcatcher.util.FishHelper;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 import java.util.UUID;
 
 public class FishingInteraction extends SimpleInstantInteraction
 {
-    public static final BuilderCodec<FishingInteraction> CODEC = BuilderCodec.builder(
-                    FishingInteraction.class, FishingInteraction::new, SimpleInstantInteraction.CODEC
-            )
-            .documentation("Spawns or reels in a bobber when right-clicked on a block with a fishing rod")
-            .build();
+    public static final BuilderCodec<FishingInteraction> CODEC =
+            BuilderCodec.builder(FishingInteraction.class, FishingInteraction::new, SimpleInstantInteraction.CODEC)
+                    .documentation("Throws a bobber out into the wild! Who knows what it might catch, perhaps a star...")
+                    .build();
 
     @Override
     protected void firstRun(@NonNullDecl InteractionType type, @NonNullDecl InteractionContext context, @NonNullDecl CooldownHandler handler)

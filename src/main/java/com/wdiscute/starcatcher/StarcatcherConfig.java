@@ -3,7 +3,6 @@ package com.wdiscute.starcatcher;
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
-import com.wdiscute.starcatcher.util.FishHelper;
 
 public class StarcatcherConfig
 {
@@ -14,5 +13,6 @@ public class StarcatcherConfig
                     (config) -> config.justAnInt)
             .documentation("this is an int :)").add()
             .build();
+
     public int justAnInt = 67;
 }
