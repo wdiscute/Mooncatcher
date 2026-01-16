@@ -1,14 +1,14 @@
 {
-    "Group": "Example",
-    "Name": "ExamplePlugin",
-    "Version": "0.0.2",
-    "Description": "An example plugin for HyTale!",
+    "Group": "wdiscute",
+    "Name": "Starcatcher",
+    "Version": "0.0.1",
+    "Description": "A fishing mod",
     "Authors": [
         {
-            "Name": "It's you!"
+            "Name": "wdiscute"
         }
     ],
-    "Website": "example.org",
+    "Website": "https://discord.gg/WsuFsGSegD",
     "ServerVersion": "*",
     "Dependencies": {
         
@@ -17,6 +17,6 @@
         
     },
     "DisabledByDefault": false,
-    "Main": "org.example.plugin.ExamplePlugin",
+    "Main": "com.wdiscute.starcatcher.Starcatcher",
     "IncludesAssetPack": true
 }
