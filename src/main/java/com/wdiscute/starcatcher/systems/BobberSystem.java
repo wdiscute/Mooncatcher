@@ -7,9 +7,9 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.tick.EntityTickingSystem;
 import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.protocol.AnimationSlot;
-import com.hypixel.hytale.server.core.entity.AnimationUtils;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
+import com.hypixel.hytale.server.core.modules.entity.player.PlayerSkinComponent;
 import com.hypixel.hytale.server.core.modules.physics.component.Velocity;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -48,6 +48,8 @@ public class BobberSystem extends EntityTickingSystem<EntityStore>
     {
         Ref<EntityStore> bobberRef = archetypeChunk.getReferenceTo(index);
         BobberComponent bobberComp = store.getComponent(bobberRef, BobberComponent.getComponentType());
+        var player = store.getComponent(bobberRef, PlayerSkinComponent.getComponentType());
+        if(player != null) return;
 
         Velocity velocity = store.getComponent(bobberRef, Velocity.getComponentType());
         TransformComponent transform = store.getComponent(bobberRef, TransformComponent.getComponentType());
@@ -55,6 +57,7 @@ public class BobberSystem extends EntityTickingSystem<EntityStore>
         World world = bobberComp.world();
 
         //physics logic
+        if (bobberComp.getState().equals(BobberComponent.FishingState.BOBBING) || bobberComp.getState().equals(BobberComponent.FishingState.FLYING))
         {
             velocity.getVelocity();
 
@@ -97,9 +100,14 @@ public class BobberSystem extends EntityTickingSystem<EntityStore>
             {
                 x = x * 0.9f;
                 z = z * 0.9f;
-                y = 0;
+                if(y < 0) y = 0;
             }
-            if (isBlockOnDirection(world, bobberPosition, Vector3d.UP)) y = 0;
+            if (isBlockOnDirection(world, bobberPosition, Vector3d.UP))
+            {
+                x = x * 0.9f;
+                z = z * 0.9f;
+                if(y > 0) y = 0;
+            }
 
             if (isInsideWater(world, bobberPosition))
             {
@@ -111,7 +119,7 @@ public class BobberSystem extends EntityTickingSystem<EntityStore>
             transform.setPosition(transform.getPosition().add(newVelocity));
         }
 
-        bobberComp.tick(transform.getPosition(), commandBuffer, bobberRef, store);
+        bobberComp.tickBobber(transform.getPosition(), commandBuffer);
     }
 
     @NullableDecl

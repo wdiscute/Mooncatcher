@@ -49,82 +49,37 @@ public class FishingInteraction extends SimpleInstantInteraction
     {
         CommandBuffer<EntityStore> commandBuffer = context.getCommandBuffer();
         World world = commandBuffer.getExternalData().getWorld();
-        ItemStack itemstack = context.getHeldItem();
-        if (itemstack == null)
+        Ref<EntityStore> playerRef = context.getEntity();
+        Player player = commandBuffer.getComponent(playerRef, Player.getComponentType());
+        BobberComponent bobberComp = commandBuffer.getComponent(playerRef, BobberComponent.getComponentType());
+
+        //cast
+        if (bobberComp == null)
         {
-            context.getState().state = InteractionState.Failed;
-        } else
+            int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_GoneFishing_Cast");
+            SoundUtil.playSoundEvent2dToPlayer(player.getPlayerRef(), soundEventIndex, SoundCategory.SFX);
+            Vector3d pos = player.getTransformComponent().getPosition();
+
+            Vector3d direction = TargetUtil.getLook(playerRef, commandBuffer).getDirection();
+            BobberComponent bobberComponent = new BobberComponent(world, playerRef, player);
+            spawnBobber(commandBuffer, context, pos, direction, bobberComponent);
+
+            //add bobber component to player
+            commandBuffer.addComponent(playerRef, BobberComponent.getComponentType(), bobberComponent);
+        }
+        //retrieve
+        else
         {
-            Ref<EntityStore> ref = context.getEntity();
-            Player player = commandBuffer.getComponent(ref, Player.getComponentType());
+            bobberComp.reel(player, commandBuffer);
+            int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_GoneFishing_Reel");
 
-            if (player == null)
-            {
-                context.getState().state = InteractionState.Failed;
-                return;
-            }
-
-            Inventory inventory = player.getInventory();
-            byte activeSlot = inventory.getActiveHotbarSlot();
-            ItemStack hotbarItem = inventory.getActiveHotbarItem();
-
-            if (hotbarItem == null)
-            {
-                context.getState().state = InteractionState.Failed;
-                return;
-            }
-
-            FishingMetaData fishingMetaData = itemstack.getFromMetadataOrNull(FishingMetaData.KEY, FishingMetaData.CODEC);
-            if (fishingMetaData != null)
-            {
-                // Handle the fishing rod reeling logic
-                reelBobber(world, commandBuffer, hotbarItem, inventory, activeSlot, fishingMetaData, player);
-            } else
-            {
-                int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_GoneFishing_Cast");
-                //noinspection removal
-               SoundUtil.playSoundEvent2dToPlayer(player.getPlayerRef(), soundEventIndex, SoundCategory.SFX);
-
-                // Handle the fishing rod casting logic
-                //noinspection removal
-                Vector3d pos = player.getTransformComponent().getPosition();
-
-
-                Vector3d direction = TargetUtil.getLook(ref, commandBuffer).getDirection();
-
-                spawnBobber(world, commandBuffer, context, hotbarItem, pos, direction, inventory, activeSlot);
-            }
+            //noinspection removal
+            SoundUtil.playSoundEvent2dToPlayer(player.getPlayerRef(), soundEventIndex, SoundCategory.SFX);
         }
     }
 
-    private void reelBobber(World world, CommandBuffer<EntityStore> commandBuffer, ItemStack hotbarItem, Inventory inventory, byte hotbarSlot, FishingMetaData fishingMetaData, Player player)
-    {
-        // Remove old bobber and adjust metadata to unbind
-        adjustMetadata(inventory, hotbarSlot, hotbarItem, null);
-
-        int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_GoneFishing_Reel");
-
-        //noinspection removal
-        SoundUtil.playSoundEvent2dToPlayer(player.getPlayerRef(), soundEventIndex, SoundCategory.SFX);
-
-        Ref<EntityStore> bobberRef = world.getEntityStore().getRefFromUUID(fishingMetaData.getFishingUUID());
-        if (bobberRef == null) return;
-
-        BobberComponent bobberComp = commandBuffer.getComponent(bobberRef, BobberComponent.getComponentType());
-        TransformComponent transformComp = commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType());
-        if (bobberComp != null)
-        {
-            bobberComp.reel(player, transformComp.getPosition(), bobberRef, commandBuffer);
-            commandBuffer.removeEntity(bobberRef, RemoveReason.REMOVE);
-            return;
-        }
-
-        commandBuffer.removeEntity(bobberRef, RemoveReason.REMOVE);
-    }
-
-    private void spawnBobber(World world, CommandBuffer<EntityStore> commandBuffer, InteractionContext context, ItemStack fishingStack,
-                             Vector3d pos, Vector3d direction,
-                             Inventory inventory, byte hotbarSlot)
+    private void spawnBobber(CommandBuffer<EntityStore> commandBuffer, InteractionContext context,
+                             Vector3d pos, Vector3d direction, BobberComponent bobberComponent)
     {
         //make new entity holder
         Ref<EntityStore> ref = context.getEntity();
@@ -158,40 +113,40 @@ public class FishingInteraction extends SimpleInstantInteraction
         //Model comp??
         holder.addComponent(ModelComponent.getComponentType(), new ModelComponent(model));
 
-        if (model.getBoundingBox() == null) return;
+        if (model.getBoundingBox() == null) throw new IllegalArgumentException("bounding box of model is null");
 
         //bounding box comp??
         holder.addComponent(BoundingBox.getComponentType(), new BoundingBox(model.getBoundingBox()));
 
         //add bobber component
-        holder.addComponent(BobberComponent.getComponentType(), new BobberComponent(world));
+        holder.addComponent(BobberComponent.getComponentType(), bobberComponent);
 
         //add head component
         holder.addComponent(HeadRotation.getComponentType(), new HeadRotation());
 
         //adds entity
-        commandBuffer.addEntity(holder, AddReason.SPAWN);
+        Ref<EntityStore> entityStoreRef = commandBuffer.addEntity(holder, AddReason.SPAWN);
 
-        // Update the fishing rod's metadata to bind it to the spawned bobber
-        adjustMetadata(inventory, hotbarSlot, fishingStack, uuid);
+        //store bobberRef
+        bobberComponent.setRef(entityStoreRef);
     }
 
-    private void adjustMetadata(Inventory inventory, byte hotbarSlot, @Nonnull ItemStack fishingRod, @Nullable UUID bobberUUID)
-    {
-        ItemStack newRod;
-        if (bobberUUID == null)
-        {
-            newRod = fishingRod.withMetadata(FishingMetaData.KEY, null);
-        } else
-        {
-            FishingMetaData fishingMetaData = fishingRod.getFromMetadataOrNull(FishingMetaData.KEY, FishingMetaData.CODEC);
-            if (fishingMetaData == null)
-            {
-                fishingMetaData = new FishingMetaData();
-            }
-            fishingMetaData.setFishingUUID(bobberUUID);
-            newRod = fishingRod.withMetadata(FishingMetaData.KEYED_CODEC, fishingMetaData);
-        }
-        inventory.getHotbar().replaceItemStackInSlot(hotbarSlot, fishingRod, newRod);
-    }
+//    private void adjustMetadata(Inventory inventory, byte hotbarSlot, @Nonnull ItemStack fishingRod, @Nullable UUID bobberUUID)
+//    {
+//        ItemStack newRod;
+//        if (bobberUUID == null)
+//        {
+//            newRod = fishingRod.withMetadata(FishingMetaData.KEY, null);
+//        } else
+//        {
+//            FishingMetaData fishingMetaData = fishingRod.getFromMetadataOrNull(FishingMetaData.KEY, FishingMetaData.CODEC);
+//            if (fishingMetaData == null)
+//            {
+//                fishingMetaData = new FishingMetaData();
+//            }
+//            fishingMetaData.setFishingUUID(bobberUUID);
+//            newRod = fishingRod.withMetadata(FishingMetaData.KEYED_CODEC, fishingMetaData);
+//        }
+//        inventory.getHotbar().replaceItemStackInSlot(hotbarSlot, fishingRod, newRod);
+//    }
 }

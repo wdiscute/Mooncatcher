@@ -3,20 +3,22 @@ package com.wdiscute.starcatcher.component;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.math.vector.Vector3d;
+import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.protocol.AnimationSlot;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.AnimationUtils;
 import com.hypixel.hytale.server.core.entity.ItemUtils;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
+import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.wdiscute.starcatcher.Starcatcher;
 import com.wdiscute.starcatcher.U;
-import com.wdiscute.starcatcher.interaction.FishingMetaData;
 import com.wdiscute.starcatcher.storage.FishProperties;
 import com.wdiscute.starcatcher.storage.Fishes;
 
@@ -31,6 +33,11 @@ public class BobberComponent implements Component<EntityStore>
     World world;
     FishProperties fpToCatch;
 
+    Player player;
+    Ref<EntityStore> bobberRef;
+    Ref<EntityStore> playerRef;
+    boolean removed = false;
+
     public int minTicksToFish = 100;
     public int maxTicksToFish = 300;
     public int chanceToFishEachTick = 100;
@@ -38,20 +45,24 @@ public class BobberComponent implements Component<EntityStore>
     FishingState currentState = FishingState.FLYING;
 
     public int timeBiting = 0;
-    public int ticksInFluid = 0;
+    public int timeBobbing = 0;
 
     public BobberComponent()
     {
         this.ticks = 0;
-        world = Universe.get().getDefaultWorld();
-        fpToCatch = null;
+        this.world = Universe.get().getDefaultWorld();
+        this.fpToCatch = null;
+        this.bobberRef = null;
     }
 
-    public BobberComponent(World world)
+    public BobberComponent(World world, Ref<EntityStore> playerRef, Player player)
     {
         this.ticks = 0;
         this.world = world;
-        fpToCatch = null;
+        this.fpToCatch = null;
+        this.playerRef = playerRef;
+        this.bobberRef = null;
+        this.player = player;
     }
 
     public static ComponentType<EntityStore, BobberComponent> getComponentType()
@@ -68,16 +79,15 @@ public class BobberComponent implements Component<EntityStore>
         ) != null;
     }
 
-    public void tick(Vector3d pos, CommandBuffer<EntityStore> commandBuffer, Ref<EntityStore> bobberRef, Store<EntityStore> store)
+    public void tickBobber(Vector3d pos, CommandBuffer<EntityStore> commandBuffer)
     {
         ticks++;
         boolean insideWater = isInsideWater(world, pos);
-        System.out.println(timeBiting + " - " + currentState);
 
         //flying
         if (this.currentState == FishingState.FLYING)
         {
-            AnimationUtils.playAnimation(bobberRef, AnimationSlot.Status, "Idle", true, store);
+            AnimationUtils.playAnimation(bobberRef, AnimationSlot.Status, "Idle", true, commandBuffer);
 
             if (insideWater)
             {
@@ -90,15 +100,20 @@ public class BobberComponent implements Component<EntityStore>
         if (this.currentState == FishingState.BITING)
         {
             timeBiting++;
-            AnimationUtils.playAnimation(bobberRef, AnimationSlot.Status, "Biting", true, store);
+            AnimationUtils.playAnimation(bobberRef, AnimationSlot.Status, "Biting", true, commandBuffer);
+
+            //ParticleUtil.spawnParticleEffect();
+
             //todo spawn particles
             if (timeBiting > 150)
             {
+                player.sendMessage(Message.raw("damn, missed it..."));
                 //todo reset fishing rod data
                 commandBuffer.removeEntity(bobberRef, RemoveReason.REMOVE);
+                commandBuffer.removeComponent(playerRef, BobberComponent.getComponentType());
+                removed = true;
             }
-        }
-        else
+        } else
         {
             timeBiting = 0;
         }
@@ -109,23 +124,33 @@ public class BobberComponent implements Component<EntityStore>
             currentState = FishingState.FLYING;
         }
 
-        if (this.currentState == FishingState.BOBBING || this.currentState == FishingState.FISHING)
+        if (this.currentState == FishingState.BOBBING)
         {
+            if (timeBobbing == 100)
+            {
+                player.sendMessage(Message.raw("and..."));
+            }
             checkForFish();
+        } else
+        {
+            timeBobbing = 0;
         }
+
     }
 
     private void checkForFish()
     {
         if (currentState == FishingState.BOBBING)
         {
-            ticksInFluid++;
+            timeBobbing++;
             int i = U.r.nextInt(chanceToFishEachTick);
-            if ((i == 1 || ticksInFluid > maxTicksToFish) && ticksInFluid > minTicksToFish)
+            if ((i == 1 || timeBobbing > maxTicksToFish) && timeBobbing > minTicksToFish)
             {
-                //todo lower bobber when biting
-                //this.setPos(position().x, position().y - 0.5f, position().z);
+                TransformComponent transformComponent = bobberRef.getStore().getComponent(bobberRef, TransformComponent.getComponentType());
+                transformComponent.setPosition(transformComponent.getPosition().add(0, -0.3, 0));
                 currentState = FishingState.BITING;
+
+                player.sendMessage(Message.raw("now!"));
 
                 //todo play splash sound
                 //this.playSound(SoundEvents.FISHING_BOBBER_SPLASH, 0.25F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.4F);
@@ -134,21 +159,70 @@ public class BobberComponent implements Component<EntityStore>
 
     }
 
-    public void reel(Player player, Vector3d pos, Ref<EntityStore> bobberRef, CommandBuffer<EntityStore> commandBuffer)
+    public void reel(Player player, CommandBuffer<EntityStore> store)
     {
+        if (removed) return;
         if (currentState == FishingState.BITING)
         {
             //todo minigame
             currentState = FishingState.FISHING;
 
+            //todo set fp based on environment stuff
+            ItemStack is = Fishes.getFish(world, store.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition());
+
             //todo item should be awarded on minigame
-            ItemStack is = Fishes.getFish(world, pos);
             if (!is.isEmpty())
             {
-                ItemUtils.throwItem(bobberRef, is, 5.0F, commandBuffer);
+                HeadRotation bobberHeadRotation = store.getComponent(bobberRef, HeadRotation.getComponentType());
+                Vector3d bobberPos = store.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone();
+                Vector3d playerPos = store.getComponent(playerRef, TransformComponent.getComponentType()).getPosition().clone();
+
+                Vector3d dif2 = bobberPos.clone().subtract(playerPos);
+                Vector3d dif = bobberPos.clone();
+                dif.subtract(playerPos);
+                dif.y = 0;
+                dif.normalize();
+                dif.scale(-1);
+                dif.scale(dif2.length());
+                dif.add(0, 15 + -dif2.y / 2.4f, 0);
+
+                float x = (float) dif.x;
+                float y = (float) dif.y;
+                float z = (float) dif.z;
+
+
+
+                Holder<EntityStore> itemEntityHolder = ItemComponent.generateItemDrop(
+                        store, is, bobberPos.add(0, 0.5f, 0),
+                        Vector3f.ZERO, x, y, z
+                );
+
+                store.addEntity(itemEntityHolder, AddReason.SPAWN);
+
+                //bobberHeadRotation.setRotation(new Vector3f(45F, (float) yaw, 0));
+                //ItemUtils.throwItem(bobberRef, is, (float) dif.length() * 2, store);
                 player.sendMessage(Message.translation("gonefishing.caughtFish").color(Color.GREEN).param("fish", Message.translation(is.getItem().getTranslationKey())));
             }
+            //todo here it should return; so it doesnt remove entity and component whilst minigame is happening
         }
+
+        //remove if reeled with no bite
+        store.removeEntity(bobberRef, RemoveReason.REMOVE);
+        store.removeComponent(playerRef, BobberComponent.getComponentType());
+        this.removed = true;
+    }
+
+    public static double yawBetween(Vector3d a, Vector3d b)
+    {
+        double x1 = a.x;
+        double z1 = a.z;
+        double x2 = b.x;
+        double z2 = b.z;
+
+        double dot = x1 * x2 + z1 * z2;
+        double det = x1 * z2 - z1 * x2;
+
+        return Math.atan2(det, dot);
     }
 
     @Override
@@ -164,6 +238,16 @@ public class BobberComponent implements Component<EntityStore>
     {
         if (world == null) return Universe.get().getDefaultWorld();
         return world;
+    }
+
+    public FishingState getState()
+    {
+        return currentState;
+    }
+
+    public void setRef(Ref<EntityStore> bobberRef)
+    {
+        this.bobberRef = bobberRef;
     }
 
     public enum FishingState
