@@ -1,4 +1,4 @@
-package com.wdiscute.starcatcher.interactions;
+package com.wdiscute.mooncatcher.interactions;
 
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.*;
@@ -21,7 +21,7 @@ import com.hypixel.hytale.server.core.universe.world.SoundUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.TargetUtil;
-import com.wdiscute.starcatcher.components.BobberComponent;
+import com.wdiscute.mooncatcher.components.BobberComponent;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 import java.util.UUID;
@@ -45,7 +45,7 @@ public class FishingInteraction extends SimpleInstantInteraction
         //cast
         if (bobberComp == null)
         {
-            int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_GoneFishing_Cast");
+            int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Starcatcher_Cast");
             SoundUtil.playSoundEvent2dToPlayer(player.getPlayerRef(), soundEventIndex, SoundCategory.SFX);
             Vector3d pos = player.getTransformComponent().getPosition();
 
@@ -59,8 +59,8 @@ public class FishingInteraction extends SimpleInstantInteraction
         //retrieve
         else
         {
-            bobberComp.reel(player, commandBuffer);
-            int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_GoneFishing_Reel");
+            bobberComp.reel(commandBuffer);
+            int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Starcatcher_Reel");
 
             //noinspection removal
             SoundUtil.playSoundEvent2dToPlayer(player.getPlayerRef(), soundEventIndex, SoundCategory.SFX);
@@ -119,23 +119,4 @@ public class FishingInteraction extends SimpleInstantInteraction
         //store bobberRef
         bobberComponent.setRef(entityStoreRef);
     }
-
-//    private void adjustMetadata(Inventory inventory, byte hotbarSlot, @Nonnull ItemStack fishingRod, @Nullable UUID bobberUUID)
-//    {
-//        ItemStack newRod;
-//        if (bobberUUID == null)
-//        {
-//            newRod = fishingRod.withMetadata(FishingMetaData.KEY, null);
-//        } else
-//        {
-//            FishingMetaData fishingMetaData = fishingRod.getFromMetadataOrNull(FishingMetaData.KEY, FishingMetaData.CODEC);
-//            if (fishingMetaData == null)
-//            {
-//                fishingMetaData = new FishingMetaData();
-//            }
-//            fishingMetaData.setFishingUUID(bobberUUID);
-//            newRod = fishingRod.withMetadata(FishingMetaData.KEYED_CODEC, fishingMetaData);
-//        }
-//        inventory.getHotbar().replaceItemStackInSlot(hotbarSlot, fishingRod, newRod);
-//    }
 }

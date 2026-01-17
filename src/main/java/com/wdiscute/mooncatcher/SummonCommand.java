@@ -1,4 +1,4 @@
-package com.wdiscute.starcatcher;
+package com.wdiscute.mooncatcher;
 
 import com.hypixel.hytale.assetstore.map.IndexedLookupTableAssetMap;
 import com.hypixel.hytale.component.Store;

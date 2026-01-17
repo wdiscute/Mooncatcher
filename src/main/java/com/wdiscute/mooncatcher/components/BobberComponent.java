@@ -1,4 +1,4 @@
-package com.wdiscute.starcatcher.components;
+package com.wdiscute.mooncatcher.components;
 
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.Component;
@@ -9,19 +9,17 @@ import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.AnimationUtils;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
-import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
 import com.hypixel.hytale.server.core.universe.Universe;
+import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.TargetUtil;
-import com.wdiscute.starcatcher.Starcatcher;
-import com.wdiscute.starcatcher.U;
-import com.wdiscute.starcatcher.storage.FishProperties;
-import com.wdiscute.starcatcher.storage.Fishes;
-
-import java.awt.*;
+import com.wdiscute.mooncatcher.Starcatcher;
+import com.wdiscute.mooncatcher.U;
+import com.wdiscute.mooncatcher.storage.FishProperties;
+import com.wdiscute.mooncatcher.storage.Fishes;
 
 public class BobberComponent implements Component<EntityStore>
 {
@@ -45,6 +43,7 @@ public class BobberComponent implements Component<EntityStore>
 
     public int timeBiting = 0;
     public int timeBobbing = 0;
+    boolean oInsideWater = false;
 
     public BobberComponent()
     {
@@ -81,7 +80,20 @@ public class BobberComponent implements Component<EntityStore>
     public void tickBobber(Vector3d pos, CommandBuffer<EntityStore> commandBuffer)
     {
         ticks++;
-        boolean insideWater = isInsideWater(world, pos);
+        boolean insideWater = isInsideWater(world, pos) || isInsideWater(world, pos.clone().add(0, -0.5f, 0));
+
+        System.out.println(insideWater);
+
+        //spawn splash particles on entering water
+        if (oInsideWater != insideWater)
+                ParticleUtil.spawnParticleEffect("Splash_System", U.offsetVectorByRandom(commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone(), 0f, 0.2f, 0f), commandBuffer);
+
+        oInsideWater = insideWater;
+
+        //spawn particles sometimes when inside water
+        if (insideWater && (ticks % 17 == 0 || ticks % 36 == 0))
+            ParticleUtil.spawnParticleEffect("Splash_System", U.offsetVectorByRandom(commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone(), 0.4f, 0, 0.4f), commandBuffer);
+
 
         //flying
         if (this.currentState == FishingState.FLYING)
@@ -101,13 +113,14 @@ public class BobberComponent implements Component<EntityStore>
             timeBiting++;
             AnimationUtils.playAnimation(bobberRef, AnimationSlot.Status, "Biting", true, commandBuffer);
 
-            //ParticleUtil.spawnParticleEffect();
+            //spawn extra particles when biting
+            if (U.r.nextFloat() < 0.4f)
+                ParticleUtil.spawnParticleEffect("Splash_System", U.offsetVectorByRandom(commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone(), 0.8f, 0.4f, 0.8f), commandBuffer);
 
             //todo spawn particles
             if (timeBiting > 150)
             {
                 player.sendMessage(Message.raw("damn, missed it..."));
-                //todo reset fishing rod data
                 commandBuffer.removeEntity(bobberRef, RemoveReason.REMOVE);
                 commandBuffer.removeComponent(playerRef, BobberComponent.getComponentType());
                 removed = true;
@@ -158,7 +171,7 @@ public class BobberComponent implements Component<EntityStore>
 
     }
 
-    public void reel(Player player, CommandBuffer<EntityStore> store)
+    public void reel(CommandBuffer<EntityStore> store)
     {
         if (removed) return;
         if (currentState == FishingState.BITING)
@@ -167,7 +180,7 @@ public class BobberComponent implements Component<EntityStore>
             currentState = FishingState.FISHING;
 
             //todo set fp based on environment stuff
-            ItemStack is = Fishes.getFish(world, store.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition());
+            ItemStack is = Fishes.getFish(world, store.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition(), this, store);
 
             //todo item should be awarded on minigame
             if (!is.isEmpty())
@@ -187,7 +200,6 @@ public class BobberComponent implements Component<EntityStore>
                 float x = (float) dif.x;
                 float y = (float) dif.y;
                 float z = (float) dif.z;
-
 
 
                 Holder<EntityStore> itemEntityHolder = ItemComponent.generateItemDrop(

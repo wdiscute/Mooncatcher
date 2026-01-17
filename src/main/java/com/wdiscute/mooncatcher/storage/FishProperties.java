@@ -1,12 +1,11 @@
-package com.wdiscute.starcatcher.storage;
+package com.wdiscute.mooncatcher.storage;
 
-import com.wdiscute.starcatcher.Starcatcher;
-import io.netty.buffer.ByteBuf;
+import com.hypixel.hytale.math.vector.Vector3d;
+import com.hypixel.hytale.server.core.universe.world.World;
+import com.wdiscute.mooncatcher.U;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 //      <><|    <- fish
 public record FishProperties(
@@ -147,6 +146,7 @@ public record FishProperties(
     //region world
     public record WorldRestrictions(
             List<String> environments,
+            List<String> environmentsBlacklist,
             List<String> fluids,
             int mustBeCaughtBelowY,
             int mustBeCaughtAboveY
@@ -154,6 +154,35 @@ public record FishProperties(
     {
 
         public static final WorldRestrictions DEFAULT = new WorldRestrictions(
+                List.of(),
+                List.of(),
+                List.of("Water"),
+                Integer.MAX_VALUE,
+                Integer.MIN_VALUE);
+
+        public static final WorldRestrictions ZONE_1_SURFACE = new WorldRestrictions(
+                List.of("#Env_Zone1"),
+                List.of("#Env_Zone1_Caves"),
+                List.of("Water"),
+                Integer.MAX_VALUE,
+                Integer.MIN_VALUE);
+
+        public static final WorldRestrictions ZONE_1_CAVES = new WorldRestrictions(
+                List.of("#Env_Zone1_Caves"),
+                List.of(),
+                List.of("Water"),
+                Integer.MAX_VALUE,
+                Integer.MIN_VALUE);
+
+        public static final WorldRestrictions ZONE_1_AZURE = new WorldRestrictions(
+                List.of("Env_Zone1_Azure"),
+                List.of(),
+                List.of("Water"),
+                Integer.MAX_VALUE,
+                Integer.MIN_VALUE);
+
+        public static final WorldRestrictions ZONE_2_SURFACE = new WorldRestrictions(
+                List.of("Env_Zone1_Azure"),
                 List.of(),
                 List.of("Water"),
                 Integer.MAX_VALUE,
@@ -252,4 +281,48 @@ public record FishProperties(
     {
         return new SizeAndWeight(sizeAvg, sizeDev, weightAvg, weightDev);
     }
+
+    public static List<FishProperties> getFishesForRestrictions(World world, Vector3d blockPos)
+    {
+        List<FishProperties> list = new ArrayList<>();
+        for (FishProperties fp : Fishes.fishes)
+        {
+            int chance = getChance(fp, world, blockPos);
+            for (int i = 0; i < chance; i++)
+            {
+                list.add(fp);
+            }
+        }
+        return list;
+    }
+
+
+    public static int getChance(FishProperties fp, World world, Vector3d blockPos)
+    {
+        if(!isEnvironmentCorrect(U.getEnvName(world, blockPos), fp)) return 0;
+
+        return fp.baseChance;
+    }
+
+    public static boolean isEnvironmentCorrect(String bobberEnv, FishProperties fp)
+    {
+        for (String s : fp.wr.environments)
+        {
+            if(s.contains("#"))
+            {
+                String substring = s.substring(1);
+                if(bobberEnv.contains(substring)) return true;
+            }
+            else
+            {
+                if(bobberEnv.equals(s)) return true;
+            }
+        }
+        return false;
+    }
+
+
+
+
+
 }

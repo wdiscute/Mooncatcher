@@ -1,9 +1,13 @@
-package com.wdiscute.starcatcher.storage;
+package com.wdiscute.mooncatcher.storage;
 
+import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.util.InventoryHelper;
+import com.wdiscute.mooncatcher.U;
+import com.wdiscute.mooncatcher.components.BobberComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,38 +21,42 @@ public class Fishes
         fishes.add(fp);
     }
 
-    public static ItemStack getFish(World world, Vector3d pos)
+    public static ItemStack getFish(World world, Vector3d blockPos, BobberComponent bobberComponent, CommandBuffer<EntityStore> entityStore)
     {
-        return InventoryHelper.createItem(fishes.getFirst().catchInfo().fish());
+        List<FishProperties> list = FishProperties.getFishesForRestrictions(world, blockPos);
+
+        if(list.isEmpty()) return ItemStack.EMPTY;
+
+        return InventoryHelper.createItem(list.get(U.r.nextInt(list.size() - 1)).catchInfo().fish());
     }
 
     public static void setup()
     {
         register(overworldZone1Fish("Starcatcher_Aurora")
-                .withSizeAndWeight(FishProperties.sizeWeight(17.7f, 5, 1200, 200))
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_AZURE)
         );
 
         register(overworldZone1Fish("Rock_Gem_Diamond")
-                .withSizeAndWeight(FishProperties.sizeWeight(120, 80, 7000, 1000))
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_SURFACE)
                 .withWeather(FishProperties.Weather.RAIN)
                 .withRarity(FishProperties.Rarity.LEGENDARY)
         );
 
         register(overworldZone1Fish("Rock_Gem_Emerald")
-                .withSizeAndWeight(FishProperties.sizeWeight(27.0f, 11, 500, 352))
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_SURFACE)
                 .withDaytime(FishProperties.Daytime.DAY)
                 .withWeather(FishProperties.Weather.CLEAR)
                 .withRarity(FishProperties.Rarity.RARE)
         );
 
         register(overworldZone1Fish("Rock_Gem_Ruby")
-                .withSizeAndWeight(FishProperties.sizeWeight(160.0f, 85, 2300, 652))
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_CAVES)
                 .withWeather(FishProperties.Weather.THUNDER)
                 .withRarity(FishProperties.Rarity.UNCOMMON)
         );
 
         register(overworldZone1Fish("Rock_Gem_Sapphire")
-                .withSizeAndWeight(FishProperties.sizeWeight(16.0f, 3, 167, 70))
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_CAVES)
                 .withRarity(FishProperties.Rarity.COMMON)
         );
 

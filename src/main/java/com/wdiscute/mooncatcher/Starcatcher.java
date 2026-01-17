@@ -1,4 +1,4 @@
-package com.wdiscute.starcatcher;
+package com.wdiscute.mooncatcher;
 
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
@@ -6,10 +6,10 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.Config;
-import com.wdiscute.starcatcher.components.BobberComponent;
-import com.wdiscute.starcatcher.interactions.FishingInteraction;
-import com.wdiscute.starcatcher.storage.Fishes;
-import com.wdiscute.starcatcher.systems.BobberSystem;
+import com.wdiscute.mooncatcher.components.BobberComponent;
+import com.wdiscute.mooncatcher.interactions.FishingInteraction;
+import com.wdiscute.mooncatcher.storage.Fishes;
+import com.wdiscute.mooncatcher.systems.BobberSystem;
 
 import javax.annotation.Nonnull;
 

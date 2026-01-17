@@ -1,4 +1,4 @@
-package com.wdiscute.starcatcher.systems;
+package com.wdiscute.mooncatcher.systems;
 
 import com.hypixel.hytale.component.ArchetypeChunk;
 import com.hypixel.hytale.component.CommandBuffer;
@@ -13,8 +13,8 @@ import com.hypixel.hytale.server.core.modules.physics.component.Velocity;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.TargetUtil;
-import com.wdiscute.starcatcher.Starcatcher;
-import com.wdiscute.starcatcher.components.BobberComponent;
+import com.wdiscute.mooncatcher.Starcatcher;
+import com.wdiscute.mooncatcher.components.BobberComponent;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 import javax.annotation.Nonnull;
