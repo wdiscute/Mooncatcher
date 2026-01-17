@@ -16,16 +16,13 @@ import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.TargetUtil;
-import com.wdiscute.mooncatcher.Starcatcher;
+import com.wdiscute.mooncatcher.Mooncatcher;
 import com.wdiscute.mooncatcher.U;
 import com.wdiscute.mooncatcher.storage.FishProperties;
 import com.wdiscute.mooncatcher.storage.Fishes;
 
 public class BobberComponent implements Component<EntityStore>
 {
-    // Max time to wait for a catch
-    private static final int MAX_CATCH_TIME = 100;
-
     private int ticks;
     World world;
     FishProperties fpToCatch;
@@ -65,7 +62,7 @@ public class BobberComponent implements Component<EntityStore>
 
     public static ComponentType<EntityStore, BobberComponent> getComponentType()
     {
-        return Starcatcher.bobberComponent;
+        return Mooncatcher.bobberComponent;
     }
 
     public static boolean isInsideWater(World world, Vector3d origin)
@@ -120,7 +117,7 @@ public class BobberComponent implements Component<EntityStore>
             //todo spawn particles
             if (timeBiting > 150)
             {
-                player.sendMessage(Message.raw("damn, missed it..."));
+                //player.sendMessage(Message.raw("damn, missed it..."));
                 commandBuffer.removeEntity(bobberRef, RemoveReason.REMOVE);
                 commandBuffer.removeComponent(playerRef, BobberComponent.getComponentType());
                 removed = true;
@@ -131,7 +128,7 @@ public class BobberComponent implements Component<EntityStore>
         }
 
         //if not inside water, changes to FLYING
-        if (!insideWater && !isInsideWater(world, pos.clone().add(Vector3d.DOWN)))
+        if (!insideWater)
         {
             currentState = FishingState.FLYING;
         }
@@ -140,7 +137,7 @@ public class BobberComponent implements Component<EntityStore>
         {
             if (timeBobbing == 100)
             {
-                player.sendMessage(Message.raw("and..."));
+                //player.sendMessage(Message.raw("and..."));
             }
             checkForFish();
         } else
@@ -162,7 +159,7 @@ public class BobberComponent implements Component<EntityStore>
                 transformComponent.setPosition(transformComponent.getPosition().add(0, -0.3, 0));
                 currentState = FishingState.BITING;
 
-                player.sendMessage(Message.raw("now!"));
+                //player.sendMessage(Message.raw("now!"));
 
                 //todo play splash sound
                 //this.playSound(SoundEvents.FISHING_BOBBER_SPLASH, 0.25F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.4F);
@@ -216,19 +213,6 @@ public class BobberComponent implements Component<EntityStore>
         store.removeEntity(bobberRef, RemoveReason.REMOVE);
         store.removeComponent(playerRef, BobberComponent.getComponentType());
         this.removed = true;
-    }
-
-    public static double yawBetween(Vector3d a, Vector3d b)
-    {
-        double x1 = a.x;
-        double z1 = a.z;
-        double x2 = b.x;
-        double z2 = b.z;
-
-        double dot = x1 * x2 + z1 * z2;
-        double det = x1 * z2 - z1 * x2;
-
-        return Math.atan2(det, dot);
     }
 
     @Override

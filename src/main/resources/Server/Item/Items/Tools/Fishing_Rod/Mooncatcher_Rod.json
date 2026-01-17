@@ -1,7 +1,7 @@
 {
   "Model": "Items/rod/Rod.blockymodel",
   "Texture": "Items/rod/RodTexture.png",
-  "Icon": "Icons/ItemsGenerated/Starcatcher_Rod.png",
+  "Icon": "Icons/ItemsGenerated/Mooncatcher_Rod.png",
   "IconProperties": {
     "Scale": 0.9,
     "Rotation": [
@@ -18,13 +18,13 @@
     "Secondary": {
       "Interactions": [
         {
-          "Type": "StarcatcherCast"
+          "Type": "MooncatcherCast"
         }
       ]
     }
   },
   "TranslationProperties": {
-    "Name": "items.Starcatcher_Rod.name",
-    "Description": "starcatcher.Starcatcher_Rod.description"
+    "Name": "items.Mooncatcher_Aurora.name",
+    "Description": "mooncatcher.Mooncatcher_Rod.description"
   }
 }

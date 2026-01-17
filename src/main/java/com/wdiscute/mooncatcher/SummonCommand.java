@@ -19,7 +19,7 @@ public class SummonCommand extends CommandBase
 {
     public SummonCommand()
     {
-        super("starcatcher", "summons an aurora :)");
+        super("mooncatcher", "summons an aurora :)");
         this.setPermissionGroup(GameMode.Adventure); // Allows the command to be used by anyone, not just OP
     }
 

@@ -1,8 +1,8 @@
 {
     "Group": "wdiscute",
-    "Name": "Starcatcher",
+    "Name": "Mooncatcher",
     "Version": "0.0.1",
-    "Description": "A fishing mod",
+    "Description": "A fishing mod inspired (aka port) by Starcatcher",
     "Authors": [
         {
             "Name": "wdiscute"
@@ -17,6 +17,6 @@
         
     },
     "DisabledByDefault": false,
-    "Main": "com.wdiscute.starcatcher.Starcatcher",
+    "Main": "com.wdiscute.mooncatcher.Mooncatcher",
     "IncludesAssetPack": true
 }

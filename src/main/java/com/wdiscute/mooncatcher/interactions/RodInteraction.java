@@ -26,11 +26,11 @@ import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 import java.util.UUID;
 
-public class FishingInteraction extends SimpleInstantInteraction
+public class RodInteraction extends SimpleInstantInteraction
 {
-    public static final BuilderCodec<FishingInteraction> CODEC =
-            BuilderCodec.builder(FishingInteraction.class, FishingInteraction::new, SimpleInstantInteraction.CODEC)
-                    .documentation("Throws a bobber out into the wild! Who knows what it might catch, perhaps a star...")
+    public static final BuilderCodec<RodInteraction> CODEC =
+            BuilderCodec.builder(RodInteraction.class, RodInteraction::new, SimpleInstantInteraction.CODEC)
+                    .documentation("Casts a bobber into the wild! Who knows what it might catch, perhaps a star...")
                     .build();
 
     @Override
@@ -45,7 +45,7 @@ public class FishingInteraction extends SimpleInstantInteraction
         //cast
         if (bobberComp == null)
         {
-            int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Starcatcher_Cast");
+            int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Mooncatcher_Cast");
             SoundUtil.playSoundEvent2dToPlayer(player.getPlayerRef(), soundEventIndex, SoundCategory.SFX);
             Vector3d pos = player.getTransformComponent().getPosition();
 
@@ -60,7 +60,7 @@ public class FishingInteraction extends SimpleInstantInteraction
         else
         {
             bobberComp.reel(commandBuffer);
-            int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Starcatcher_Reel");
+            int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Mooncatcher_Reel");
 
             //noinspection removal
             SoundUtil.playSoundEvent2dToPlayer(player.getPlayerRef(), soundEventIndex, SoundCategory.SFX);
@@ -90,7 +90,7 @@ public class FishingInteraction extends SimpleInstantInteraction
         holder.putComponent(NetworkId.getComponentType(), new NetworkId(ref.getStore().getExternalData().takeNextNetworkId()));
 
         //model asset stuff??????? why is it needed
-        ModelAsset modelasset = ModelAsset.getAssetMap().getAsset("StarcatcherBobber");
+        ModelAsset modelasset = ModelAsset.getAssetMap().getAsset("MooncatcherBobber");
         if (modelasset == null) modelasset = ModelAsset.DEBUG;
 
         //create model i guess????????????????????????

@@ -13,7 +13,7 @@ import com.hypixel.hytale.server.core.modules.physics.component.Velocity;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.TargetUtil;
-import com.wdiscute.mooncatcher.Starcatcher;
+import com.wdiscute.mooncatcher.Mooncatcher;
 import com.wdiscute.mooncatcher.components.BobberComponent;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -125,6 +125,6 @@ public class BobberSystem extends EntityTickingSystem<EntityStore>
     @Override
     public Query<EntityStore> getQuery()
     {
-        return Starcatcher.bobberComponent;
+        return Mooncatcher.bobberComponent;
     }
 }

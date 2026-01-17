@@ -1,6 +1,6 @@
 {
-  "Model": "NPC/MISC/StarcatcherBobber/Models/bobber.blockymodel",
-  "Texture": "NPC/MISC/StarcatcherBobber/Models/bobber.png",
+  "Model": "NPC/MISC/MooncatcherBobber/Models/bobber.blockymodel",
+  "Texture": "NPC/MISC/MooncatcherBobber/Models/bobber.png",
   "EyeHeight": 0.25,
   "HitBox": {
     "Max": {
@@ -21,7 +21,7 @@
     "Idle": {
       "Animations": [
         {
-          "Animation": "NPC/MISC/StarcatcherBobber/Animations/Idle.blockyanim",
+          "Animation": "NPC/MISC/MooncatcherBobber/Animations/Idle.blockyanim",
           "Looping": true
         }
       ]
@@ -29,7 +29,7 @@
     "Biting": {
       "Animations": [
         {
-          "Animation": "NPC/MISC/StarcatcherBobber/Animations/Biting.blockyanim",
+          "Animation": "NPC/MISC/MooncatcherBobber/Animations/Biting.blockyanim",
           "Looping": true
         }
       ]

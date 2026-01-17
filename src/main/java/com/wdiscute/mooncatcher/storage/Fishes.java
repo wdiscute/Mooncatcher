@@ -32,7 +32,7 @@ public class Fishes
 
     public static void setup()
     {
-        register(overworldZone1Fish("Starcatcher_Aurora")
+        register(overworldZone1Fish("Mooncatcher_Aurora")
                 .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_AZURE)
         );
 
