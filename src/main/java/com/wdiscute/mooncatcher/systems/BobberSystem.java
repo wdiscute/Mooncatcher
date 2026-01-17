@@ -110,6 +110,7 @@ public class BobberSystem extends EntityTickingSystem<EntityStore>
 
             if (isInsideWater(world, bobberPosition))
             {
+                y = y * 0.8f;
                 y += 0.02f;
             }
 

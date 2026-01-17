@@ -24,7 +24,28 @@
     }
   },
   "TranslationProperties": {
-    "Name": "items.Mooncatcher_Aurora.name",
+    "Name": "items.Mooncatcher_Rod.name",
     "Description": "mooncatcher.Mooncatcher_Rod.description"
+  },
+  "Recipe": {
+    "Input": [
+      {
+        "ItemId": "Ingredient_Fibre",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Stick",
+        "Quantity": 3
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Workbench",
+        "Categories": [
+          "Workbench_Survival"
+        ]
+      }
+    ],
+    "TimeSeconds": 1
   }
 }
