@@ -1,0 +1,53 @@
+{
+  "Parent": "Template_Fish_Item",
+  "Quality": "Common",
+  "TranslationProperties": {
+    "Name": "mooncatcher.Crystalback_Minnow.name",
+    "Description": "mooncatcher.Crystalback_Minnow.description"
+  },
+  "Model": "NPC/Fishes/Crystalback_Minnow/Crystalback_Minnow.blockymodel",
+  "Texture": "NPC/Fishes/Crystalback_Minnow/Crystalback_Minnow.png",
+  "Animation": "NPC/Swimming_Wildlife/Bluegill/Animations/Swim/Swim.blockyanim",
+  "Icon": "Icons/ItemsGenerated/Crystalback_Minnow.png",
+  "IconProperties": {
+    "Scale": 0.4,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      4,
+      -13.5
+    ]
+  },
+  "InteractionVars": {
+    "SpawnNPC_Entity": {
+      "Interactions": [
+        {
+          "Parent": "SpawnNPC_Entity_Default",
+          "EntityId": "Crystalback_Minnow",
+          "SpawnOffset": {
+            "X": 0,
+            "Y": 1,
+            "Z": 0
+          },
+          "Effects": {
+            "WorldSoundEventId": "SFX_Water_MoveOut"
+          }
+        }
+      ]
+    }
+  },
+  "ResourceTypes": [
+    {
+      "Id": "Fish"
+    },
+    {
+      "Id": "Fish_Common"
+    }
+  ],
+  "Categories": [
+    "Mooncatcher.Fishes"
+  ]
+}

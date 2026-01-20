@@ -1,5 +1,6 @@
 package com.wdiscute.mooncatcher;
 
+import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
@@ -27,9 +28,6 @@ public class Mooncatcher extends JavaPlugin
     @Override
     protected void setup()
     {
-        //register fishes
-        Fishes.setup();
-
         //component
         bobberComponent = this.getEntityStoreRegistry().registerComponent(BobberComponent.class, BobberComponent::new);
 

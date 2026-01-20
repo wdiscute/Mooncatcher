@@ -1,10 +1,13 @@
 package com.wdiscute.mooncatcher;
 
+import com.hypixel.hytale.common.util.TimeUtil;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.asset.type.environment.config.Environment;
+import com.hypixel.hytale.server.core.asset.type.weather.config.Weather;
+import com.hypixel.hytale.server.core.modules.time.WorldTimeResource;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.BlockChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
@@ -36,6 +39,35 @@ public class U
         if (environment == null) return "unknown";
         return environment.getId();
     }
+
+    public static String getWeatherName(World world, Vector3d blockPos)
+    {
+        Store<ChunkStore> chunkStore = world.getChunkStore().getStore();
+        return getWeatherName(chunkStore, blockPos);
+    }
+
+    public static String getWeatherName(Store<ChunkStore> chunkStore, Vector3d blockPos)
+    {
+        long chunkIndex = ChunkUtil.indexChunkFromBlock(blockPos.x, blockPos.z);
+        Ref<ChunkStore> chunkRef = chunkStore.getExternalData().getChunkReference(chunkIndex);
+        BlockChunk blockChunkComp = chunkStore.getComponent(chunkRef, BlockChunk.getComponentType());
+        return getWeatherName(blockChunkComp, blockPos);
+    }
+
+    public static String getWeatherName(BlockChunk blockChunkComp, Vector3d blockPos)
+    {
+        int envId = blockChunkComp.getEnvironment(blockPos);
+        Weather weather = Weather.getAssetMap().getAsset(envId);
+        if (weather == null) return "unknown";
+        return weather.getId();
+    }
+
+    public static float getDaytimePercentage(World world, Vector3d blockPos)
+    {
+        WorldTimeResource time = world.getEntityStore().getStore().getResource(WorldTimeResource.getResourceType());
+        return time.getDayProgress();
+    }
+
 
     public static Vector3d offsetVectorByRandom(Vector3d v, int x, int y, int z)
     {

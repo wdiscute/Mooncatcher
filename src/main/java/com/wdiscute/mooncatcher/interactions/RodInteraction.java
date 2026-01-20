@@ -45,8 +45,8 @@ public class RodInteraction extends SimpleInstantInteraction
         //cast
         if (bobberComp == null)
         {
-            int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Mooncatcher_Cast");
-            SoundUtil.playSoundEvent2dToPlayer(player.getPlayerRef(), soundEventIndex, SoundCategory.SFX);
+            //int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Mooncatcher_Cast");
+            //SoundUtil.playSoundEvent2dToPlayer(player.getPlayerRef(), soundEventIndex, SoundCategory.SFX);
             Vector3d pos = player.getTransformComponent().getPosition();
 
             Vector3d direction = TargetUtil.getLook(playerRef, commandBuffer).getDirection();
@@ -60,10 +60,8 @@ public class RodInteraction extends SimpleInstantInteraction
         else
         {
             bobberComp.reel(commandBuffer);
-            int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Mooncatcher_Reel");
-
-            //noinspection removal
-            SoundUtil.playSoundEvent2dToPlayer(player.getPlayerRef(), soundEventIndex, SoundCategory.SFX);
+            //int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Mooncatcher_Reel");
+            //SoundUtil.playSoundEvent2dToPlayer(player.getPlayerRef(), soundEventIndex, SoundCategory.SFX);
         }
     }
 

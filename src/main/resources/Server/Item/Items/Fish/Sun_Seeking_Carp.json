@@ -1,0 +1,53 @@
+{
+  "Parent": "Template_Fish_Item",
+  "Quality": "Uncommon",
+  "TranslationProperties": {
+    "Name": "mooncatcher.Sun_Seeking_Carp.name",
+    "Description": "mooncatcher.Sun_Seeking_Carp.description"
+  },
+  "Model": "NPC/Fishes/Sun_Seeking_Carp/Sun_Seeking_Carp.blockymodel",
+  "Texture": "NPC/Fishes/Sun_Seeking_Carp/Sun_Seeking_Carp.png",
+  "Animation": "NPC/Swimming_Wildlife/Bluegill/Animations/Swim/Swim.blockyanim",
+  "Icon": "Icons/ItemsGenerated/Sun_Seeking_Carp.png",
+  "IconProperties": {
+    "Scale": 0.4,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      4,
+      -13.5
+    ]
+  },
+  "InteractionVars": {
+    "SpawnNPC_Entity": {
+      "Interactions": [
+        {
+          "Parent": "SpawnNPC_Entity_Default",
+          "EntityId": "Sun_Seeking_Carp",
+          "SpawnOffset": {
+            "X": 0,
+            "Y": 1,
+            "Z": 0
+          },
+          "Effects": {
+            "WorldSoundEventId": "SFX_Water_MoveOut"
+          }
+        }
+      ]
+    }
+  },
+  "ResourceTypes": [
+    {
+      "Id": "Fish"
+    },
+    {
+      "Id": "Fish_Uncommon"
+    }
+  ],
+  "Categories": [
+    "Mooncatcher.Fishes"
+  ]
+}

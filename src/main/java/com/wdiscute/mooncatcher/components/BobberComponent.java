@@ -5,7 +5,6 @@ import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.protocol.AnimationSlot;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.AnimationUtils;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
@@ -78,8 +77,6 @@ public class BobberComponent implements Component<EntityStore>
     {
         ticks++;
         boolean insideWater = isInsideWater(world, pos) || isInsideWater(world, pos.clone().add(0, -0.5f, 0));
-
-        System.out.println(insideWater);
 
         //spawn splash particles on entering water
         if (oInsideWater != insideWater)

@@ -1,2 +1,54 @@
-Mooncatcher_Aurora.description = A very cool fish!
+
+ui.itemcategory.fishes = Fishes
+
+
+Aurora.name = Aurora
+Aurora.description = A very cool fish!
+
+Basaltish.name = Basaltish
+Basaltish.description = A fish imbued with basalt from the volcanic depths of Orbis.
+
+Blue_Crystal_Fin.name = Blue Crystal Fin
+Blue_Crystal_Fin.description = A beautiful common fish with fins made of blue crystals.
+
+Crystalback_Minnow.name = Crystalback Minnow
+Crystalback_Minnow.description = A really small fish often used as bait. This specific species is most common at nighttime.
+
+Azure_Crystalback_Minnow.name = Azure Crystalback Minnow
+Azure_Crystalback_Minnow.description = A rare mutation of crystalback minnow's which glows a soft blue tone during midnight. A challenging catch due to it's tiny size.
+
+Carpenjoe.name = Carpenjoe
+Carpenjoe.description = A majestic carp glowing in modding knowledge. It is said anglers eat it for good luck before debugging.
+
+Redscaled_Tuna.name = Redscaled Tuna
+Redscaled_Tuna.description = A tuna species found in the oceans of Orbis.
+
+Ironjaw_Herring.name = Ironjaw Herring
+Ironjaw_Herring.description = This type of herring common to the ocean and often has a petrified silvery jaw resembling iron.
+
+Vesani.name = Vesani
+Vesani.description = A weird fugly fish.
+
+Bluegigi.name = Bluegigi
+Bluegigi.description = "caught myself a nice lil bluegigi"
+
+Joel.name = Joel
+Joel.description = A very spinny fish, common to rivers
+
+Petaldrift_Carp.name = Petaldrift Carp
+Petaldrift_Carp.description = A pink carp said to be born once a petal drifts unto a river.
+
+Sphynx.name = Sphynx
+Sphynx.description = A species of fish resembling the Sphynx of Orbi's deserts. It was once worshiped for it's fins, said to bring good fortune to anglers.
+
+Sun_Seeking_Carp.name = Sun Seeking Carp
+Sun_Seeking_Carp.description = A special breed of carps adapted to live in the deserts, always surfacing during sunny days.
+
+Suneater.name = Suneater
+Suneater.description = An aggressive fish that dominates the deserts of Orbis during daytime.
+
+Ward.name = Ward
+Ward.description = A mysterious species of fish found in the Azure forests of Orbis, said to have originated from the depths of an even blockier universe.
+
+Mooncatcher_Rod.name = Mooncatcher's rod
 Mooncatcher_Rod.description = A fishing rod made of minecraftium!

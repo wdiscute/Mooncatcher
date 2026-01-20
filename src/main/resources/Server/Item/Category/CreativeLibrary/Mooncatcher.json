@@ -1,0 +1,11 @@
+{
+  "Icon": "Icons/ItemCategories/Mooncatcher.png",
+  "Order": 0,
+  "Children": [
+    {
+      "Id": "Fishes",
+      "Name": "mooncatcher.ui.itemcategory.fishes",
+      "Icon": "Icons/ItemCategories/Fishes.png"
+    }
+  ]
+}

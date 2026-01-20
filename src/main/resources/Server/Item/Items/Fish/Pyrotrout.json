@@ -1,0 +1,53 @@
+{
+  "Parent": "Template_Fish_Item",
+  "Quality": "Uncommon",
+  "TranslationProperties": {
+    "Name": "mooncatcher.Pyrotrout.name",
+    "Description": "mooncatcher.Pyrotrout.description"
+  },
+  "Model": "NPC/Fishes/Pyrotrout/Pyrotrout.blockymodel",
+  "Texture": "NPC/Fishes/Pyrotrout/Pyrotrout.png",
+  "Animation": "NPC/Swimming_Wildlife/Bluegill/Animations/Swim/Swim.blockyanim",
+  "Icon": "Icons/ItemsGenerated/Pyrotrout.png",
+  "IconProperties": {
+    "Scale": 0.4,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      4,
+      -13.5
+    ]
+  },
+  "InteractionVars": {
+    "SpawnNPC_Entity": {
+      "Interactions": [
+        {
+          "Parent": "SpawnNPC_Entity_Default",
+          "EntityId": "Pyrotrout",
+          "SpawnOffset": {
+            "X": 0,
+            "Y": 1,
+            "Z": 0
+          },
+          "Effects": {
+            "WorldSoundEventId": "SFX_Water_MoveOut"
+          }
+        }
+      ]
+    }
+  },
+  "ResourceTypes": [
+    {
+      "Id": "Fish"
+    },
+    {
+      "Id": "Fish_Uncommon"
+    }
+  ],
+  "Categories": [
+    "Mooncatcher.Fishes"
+  ]
+}

@@ -24,7 +24,7 @@
     }
   },
   "TranslationProperties": {
-    "Name": "items.Mooncatcher_Rod.name",
+    "Name": "mooncatcher.Mooncatcher_Rod.name",
     "Description": "mooncatcher.Mooncatcher_Rod.description"
   },
   "Recipe": {
@@ -47,5 +47,9 @@
       }
     ],
     "TimeSeconds": 1
-  }
+  },
+  "Categories": [
+    "Mooncatcher.Fishes"
+  ],
+  "Scale": 3
 }
