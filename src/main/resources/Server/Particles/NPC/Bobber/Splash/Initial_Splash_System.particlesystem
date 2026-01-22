@@ -1,7 +1,7 @@
 {
   "Spawners": [
     {
-      "SpawnerId": "Splash_Spawner",
+      "SpawnerId": "Initial_Splash_Spawner",
       "PositionOffset": {
         "X": 0,
         "Y": 0,

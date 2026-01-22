@@ -2,18 +2,11 @@
   "Layers": [
     {
       "Files": [
-        "Sounds/Mooncatcher/Splash_Land.ogg"
+        "Sounds/Mooncatcher/Cast.ogg"
       ],
-      "RandomSettings": {
-        "MinPitch": -1,
-        "MaxPitch": 1,
-        "MinVolume": -2
-      },
-      "StartDelay": 0,
-      "Volume": 4.0
+      "Volume": 1.0
     }
   ],
-  "Volume": 0,
-  "PreventSoundInterruption": true,
-  "Parent": "SFX_Attn_Moderate"
+  "Parent": "SFX_Attn_Moderate",
+  "Pitch": -6.432
 }

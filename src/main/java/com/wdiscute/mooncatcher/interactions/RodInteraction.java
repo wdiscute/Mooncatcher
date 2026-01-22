@@ -8,6 +8,7 @@ import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.protocol.SoundCategory;
 import com.hypixel.hytale.server.core.asset.type.model.config.Model;
 import com.hypixel.hytale.server.core.asset.type.model.config.ModelAsset;
+import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
@@ -16,6 +17,7 @@ import com.hypixel.hytale.server.core.modules.entity.tracker.NetworkId;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
 import com.hypixel.hytale.server.core.modules.physics.component.Velocity;
+import com.hypixel.hytale.server.core.universe.world.SoundUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.TargetUtil;
@@ -52,13 +54,15 @@ public class RodInteraction extends SimpleInstantInteraction
 
             //add bobber component to player
             commandBuffer.addComponent(playerRef, BobberComponent.getComponentType(), bobberComponent);
+
+            //cast sound
+            int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Mooncatcher_Cast");
+            SoundUtil.playSoundEvent2dToPlayer(player.getPlayerRef(), soundEventIndex, SoundCategory.SFX);
         }
         //retrieve
         else
         {
-            bobberComp.reel(commandBuffer);
-            //int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Mooncatcher_Reel");
-            //SoundUtil.playSoundEvent2dToPlayer(player.getPlayerRef(), soundEventIndex, SoundCategory.SFX);
+            bobberComp.reel(commandBuffer, player.getPlayerRef());
         }
     }
 

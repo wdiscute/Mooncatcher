@@ -3,15 +3,15 @@
   "Texture": "Items/rod/RodTexture.png",
   "Icon": "Icons/ItemsGenerated/Mooncatcher_Rod.png",
   "IconProperties": {
-    "Scale": 0.9,
+    "Scale": 0.4,
     "Rotation": [
       360,
-      183,
+      168,
       0
     ],
     "Translation": [
-      -6,
-      -13
+      -17,
+      -26
     ]
   },
   "Interactions": {
@@ -51,5 +51,6 @@
   "Categories": [
     "Mooncatcher.Fishes"
   ],
-  "Scale": 3
+  "Scale": 1,
+  "MaxStack": 1
 }

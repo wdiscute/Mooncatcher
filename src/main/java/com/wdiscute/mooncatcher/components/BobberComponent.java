@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.SoundUtil;
@@ -85,20 +86,17 @@ public class BobberComponent implements Component<EntityStore>
         //spawn splash particles on entering water
         if (oInsideWater != insideWater)
         {
-
-            if(!initialSplash)
+            ParticleUtil.spawnParticleEffect("Splash_System", U.offsetVectorByRandom(commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone(), 0f, 0.2f, 0f), commandBuffer);
+            if (!initialSplash)
             {
-                ParticleUtil.spawnParticleEffect("Initial_Splash_System", U.offsetVectorByRandom(commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone(), 0f, 0.2f, 0f), commandBuffer);
+                for (int i = 0; i < 10; i++)
+                {
+                    ParticleUtil.spawnParticleEffect("Initial_Splash_System", U.offsetVectorByRandom(commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone(), 0.7f, 0.2f, 0.7f), commandBuffer);
+                }
                 int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Mooncatcher_Splash_Land");
                 SoundUtil.playSoundEvent3d(bobberRef, soundEventIndex, pos, commandBuffer);
-                SoundUtil.playSoundEvent3d(soundEventIndex, SoundCategory.SFX, pos, commandBuffer);
                 initialSplash = true;
             }
-            else
-            {
-                ParticleUtil.spawnParticleEffect("Splash_System", U.offsetVectorByRandom(commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone(), 0f, 0.2f, 0f), commandBuffer);
-            }
-
         }
 
         oInsideWater = insideWater;
@@ -128,7 +126,10 @@ public class BobberComponent implements Component<EntityStore>
 
             //spawn extra particles when biting
             if (U.r.nextFloat() < 0.4f)
+            {
+                ParticleUtil.spawnParticleEffect("Splash_System", commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone().add(0, 0.5f, 0), commandBuffer);
                 ParticleUtil.spawnParticleEffect("Initial_Splash_System", U.offsetVectorByRandom(commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone(), 0.8f, 0, 0.8f).add(0, 0.4f, 0), commandBuffer);
+            }
 
             //todo spawn particles
             if (timeBiting > 150)
@@ -144,26 +145,18 @@ public class BobberComponent implements Component<EntityStore>
         }
 
         //if not inside water, changes to FLYING
-        if (!insideWater)
-        {
-            currentState = FishingState.FLYING;
-        }
+        if (!insideWater) currentState = FishingState.FLYING;
 
+        //check for fish if bobber, otherwise reset time bobbing
         if (this.currentState == FishingState.BOBBING)
-        {
-            if (timeBobbing == 100)
-            {
-                //player.sendMessage(Message.raw("and..."));
-            }
-            checkForFish();
-        } else
-        {
+            checkForFish(pos, commandBuffer);
+        else
             timeBobbing = 0;
-        }
+
 
     }
 
-    private void checkForFish()
+    private void checkForFish(Vector3d pos, CommandBuffer<EntityStore> commandBuffer)
     {
         if (currentState == FishingState.BOBBING)
         {
@@ -174,17 +167,14 @@ public class BobberComponent implements Component<EntityStore>
                 TransformComponent transformComponent = bobberRef.getStore().getComponent(bobberRef, TransformComponent.getComponentType());
                 transformComponent.setPosition(transformComponent.getPosition().add(0, -0.3, 0));
                 currentState = FishingState.BITING;
-
-                //player.sendMessage(Message.raw("now!"));
-
-                //todo play splash sound
-                //this.playSound(SoundEvents.FISHING_BOBBER_SPLASH, 0.25F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.4F);
+                int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Mooncatcher_Bite");
+                SoundUtil.playSoundEvent3d(bobberRef, soundEventIndex, pos, commandBuffer);
             }
         }
 
     }
 
-    public void reel(CommandBuffer<EntityStore> store)
+    public void reel(CommandBuffer<EntityStore> store, PlayerRef playerRef2)
     {
         if (removed) return;
         if (currentState == FishingState.BITING)
@@ -219,11 +209,19 @@ public class BobberComponent implements Component<EntityStore>
                         store, is, bobberPos.add(0, 0.5f, 0),
                         Vector3f.ZERO, x, y, z
                 );
-
                 store.addEntity(itemEntityHolder, AddReason.SPAWN);
             }
             //todo here it should return; so it doesnt remove entity and component whilst minigame is happening
         }
+
+        //play water reel sound
+        int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Mooncatcher_Splash_Land");
+        Vector3d v = store.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition();
+        if (oInsideWater)
+            SoundUtil.playSoundEvent3d(soundEventIndex, SoundCategory.SFX, v.x, v.y, v.z, 1f, 1.8f, store);
+
+        //play reel sound
+        SoundUtil.playSoundEvent2dToPlayer(playerRef2, SoundEvent.getAssetMap().getIndex("SFX_Mooncatcher_Reel"), SoundCategory.SFX);
 
         //remove if reeled with no bite
         store.removeEntity(bobberRef, RemoveReason.REMOVE);

@@ -1,6 +1,11 @@
 {
-  "Volume": 0,
-  "PreventSoundInterruption": true,
-  "Parent": "SFX_Attn_Moderate",
-  "MaxDistance": 100
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/Mooncatcher/Bite.ogg"
+      ],
+      "Volume": 1
+    }
+  ],
+  "Parent": "SFX_Attn_Moderate"
 }
