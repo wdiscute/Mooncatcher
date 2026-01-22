@@ -7,7 +7,7 @@ build/
 
 ### Hytale ###
 run/
-VanillaAssets/
+.VanillaAssets/
 
 ### IntelliJ IDEA ###
 .idea/

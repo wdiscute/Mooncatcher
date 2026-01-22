@@ -5,6 +5,8 @@ import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.protocol.AnimationSlot;
+import com.hypixel.hytale.protocol.SoundCategory;
+import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.entity.AnimationUtils;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
@@ -12,6 +14,7 @@ import com.hypixel.hytale.server.core.modules.entity.component.TransformComponen
 import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
+import com.hypixel.hytale.server.core.universe.world.SoundUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.TargetUtil;
@@ -40,6 +43,7 @@ public class BobberComponent implements Component<EntityStore>
     public int timeBiting = 0;
     public int timeBobbing = 0;
     boolean oInsideWater = false;
+    boolean initialSplash = false;
 
     public BobberComponent()
     {
@@ -80,7 +84,22 @@ public class BobberComponent implements Component<EntityStore>
 
         //spawn splash particles on entering water
         if (oInsideWater != insideWater)
+        {
+
+            if(!initialSplash)
+            {
+                ParticleUtil.spawnParticleEffect("Initial_Splash_System", U.offsetVectorByRandom(commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone(), 0f, 0.2f, 0f), commandBuffer);
+                int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Mooncatcher_Splash_Land");
+                SoundUtil.playSoundEvent3d(bobberRef, soundEventIndex, pos, commandBuffer);
+                SoundUtil.playSoundEvent3d(soundEventIndex, SoundCategory.SFX, pos, commandBuffer);
+                initialSplash = true;
+            }
+            else
+            {
                 ParticleUtil.spawnParticleEffect("Splash_System", U.offsetVectorByRandom(commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone(), 0f, 0.2f, 0f), commandBuffer);
+            }
+
+        }
 
         oInsideWater = insideWater;
 
@@ -109,7 +128,7 @@ public class BobberComponent implements Component<EntityStore>
 
             //spawn extra particles when biting
             if (U.r.nextFloat() < 0.4f)
-                ParticleUtil.spawnParticleEffect("Splash_System", U.offsetVectorByRandom(commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone(), 0.8f, 0.4f, 0.8f), commandBuffer);
+                ParticleUtil.spawnParticleEffect("Initial_Splash_System", U.offsetVectorByRandom(commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone(), 0.8f, 0, 0.8f).add(0, 0.4f, 0), commandBuffer);
 
             //todo spawn particles
             if (timeBiting > 150)

@@ -1,0 +1,15 @@
+{
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/Mooncatcher/Splash_Land.ogg"
+      ],
+      "RandomSettings": {
+        "MinPitch": -1.6327385949123405,
+        "MaxPitch": 1.6500422849992202
+      },
+      "Volume": 6.0
+    }
+  ],
+  "Parent": "SFX_Attn_Quiet"
+}

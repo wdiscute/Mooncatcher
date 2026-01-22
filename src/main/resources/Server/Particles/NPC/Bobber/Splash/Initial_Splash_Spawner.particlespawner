@@ -21,21 +21,21 @@
   "TrailSpawnerRotationMultiplier": 1,
   "MaxConcurrentParticles": 15,
   "ParticleLifeSpan": {
-    "Min": 0.3333333333333333,
-    "Max": 0.5
+    "Min": 1,
+    "Max": 1.5
   },
   "SpawnRate": {
-    "Min": 15,
-    "Max": 15
+    "Min": 1,
+    "Max": 1
   },
   "TotalParticles": {
-    "Min": 15,
-    "Max": 15
+    "Min": 1,
+    "Max": 1
   },
   "InitialVelocity": {
     "Speed": {
-      "Min": 5,
-      "Max": 7
+      "Min": 15,
+      "Max": 20
     },
     "Yaw": {
       "Min": 0,

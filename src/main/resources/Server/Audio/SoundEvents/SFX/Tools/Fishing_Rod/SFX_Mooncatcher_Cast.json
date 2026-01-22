@@ -2,7 +2,7 @@
   "Layers": [
     {
       "Files": [
-        "Sounds/Tools/Fishing_Rod/Mooncatcher_Fishing_Rod_Cast.ogg"
+        "Sounds/Mooncatcher/Splash_Land.ogg"
       ],
       "RandomSettings": {
         "MinPitch": -1,
