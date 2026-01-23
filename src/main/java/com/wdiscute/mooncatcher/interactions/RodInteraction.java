@@ -49,7 +49,7 @@ public class RodInteraction extends SimpleInstantInteraction
             Vector3d pos = player.getTransformComponent().getPosition();
 
             Vector3d direction = TargetUtil.getLook(playerRef, commandBuffer).getDirection();
-            BobberComponent bobberComponent = new BobberComponent(world, playerRef, player);
+            BobberComponent bobberComponent = new BobberComponent(world, playerRef, player, context.getHeldItem());
             spawnBobber(commandBuffer, context, pos, direction, bobberComponent);
 
             //add bobber component to player

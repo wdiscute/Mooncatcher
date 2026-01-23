@@ -30,6 +30,7 @@ public class BobberComponent implements Component<EntityStore>
     World world;
     FishProperties fpToCatch;
 
+    ItemStack rod;
     Player player;
     Ref<EntityStore> bobberRef;
     Ref<EntityStore> playerRef;
@@ -54,8 +55,9 @@ public class BobberComponent implements Component<EntityStore>
         this.bobberRef = null;
     }
 
-    public BobberComponent(World world, Ref<EntityStore> playerRef, Player player)
+    public BobberComponent(World world, Ref<EntityStore> playerRef, Player player, ItemStack is)
     {
+        this.rod = is;
         this.ticks = 0;
         this.world = world;
         this.fpToCatch = null;
@@ -131,13 +133,12 @@ public class BobberComponent implements Component<EntityStore>
                 ParticleUtil.spawnParticleEffect("Initial_Splash_System", U.offsetVectorByRandom(commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone(), 0.8f, 0, 0.8f).add(0, 0.4f, 0), commandBuffer);
             }
 
-            //todo spawn particles
+            //kill if time biting too high, spawn particles
             if (timeBiting > 150)
             {
-                //player.sendMessage(Message.raw("damn, missed it..."));
-                commandBuffer.removeEntity(bobberRef, RemoveReason.REMOVE);
-                commandBuffer.removeComponent(playerRef, BobberComponent.getComponentType());
-                removed = true;
+                for (int i = 0; i < 6; i++)
+                    ParticleUtil.spawnParticleEffect("Initial_Splash_System", U.offsetVectorByRandom(commandBuffer.getComponent(bobberRef, TransformComponent.getComponentType()).getPosition().clone(), 0.8f, 0, 0.8f).add(0, 0.4f, 0), commandBuffer);
+                kill(commandBuffer);
             }
         } else
         {
@@ -252,6 +253,24 @@ public class BobberComponent implements Component<EntityStore>
     public void setRef(Ref<EntityStore> bobberRef)
     {
         this.bobberRef = bobberRef;
+    }
+
+    public ItemStack rod()
+    {
+        return rod;
+    }
+
+    public Ref<EntityStore> bobberRef()
+    {
+        return bobberRef;
+    }
+
+    public void kill(CommandBuffer<EntityStore> store)
+    {
+        SoundUtil.playSoundEvent2d(playerRef, SoundEvent.getAssetMap().getIndex("SFX_Mooncatcher_Reel"), SoundCategory.SFX, store);
+        store.removeEntity(bobberRef, RemoveReason.REMOVE);
+        store.removeComponent(playerRef, BobberComponent.getComponentType());
+        removed = true;
     }
 
     public enum FishingState

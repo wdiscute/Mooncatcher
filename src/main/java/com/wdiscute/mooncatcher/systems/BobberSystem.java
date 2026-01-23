@@ -1,14 +1,12 @@
 package com.wdiscute.mooncatcher.systems;
 
-import com.hypixel.hytale.component.ArchetypeChunk;
-import com.hypixel.hytale.component.CommandBuffer;
-import com.hypixel.hytale.component.Ref;
-import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.tick.EntityTickingSystem;
 import com.hypixel.hytale.math.vector.Vector3d;
+import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
-import com.hypixel.hytale.server.core.modules.entity.player.PlayerSkinComponent;
 import com.hypixel.hytale.server.core.modules.physics.component.Velocity;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -45,13 +43,28 @@ public class BobberSystem extends EntityTickingSystem<EntityStore>
     public void tick(float dt, int index, @Nonnull ArchetypeChunk<EntityStore> archetypeChunk,
                      @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer)
     {
-        Ref<EntityStore> bobberRef = archetypeChunk.getReferenceTo(index);
-        BobberComponent bobberComp = store.getComponent(bobberRef, BobberComponent.getComponentType());
-        var player = store.getComponent(bobberRef, PlayerSkinComponent.getComponentType());
-        if(player != null) return;
+        Ref<EntityStore> tickRef = archetypeChunk.getReferenceTo(index);
+        BobberComponent bobberComp = store.getComponent(tickRef, BobberComponent.getComponentType());
+        Player playerComp = store.getComponent(tickRef, Player.getComponentType());
+        //if player
+        if(playerComp != null)
+        {
+            //if not holding rod, remove bobber entity and bobber comp from player
+            ItemStack itemInHand = playerComp.getInventory().getItemInHand();
+            if(itemInHand == null)
+            {
+                bobberComp.kill(commandBuffer);
+            }
+            else if(!itemInHand.equals(bobberComp.rod()))
+            {
+                bobberComp.kill(commandBuffer);
+            }
+            return;
+        }
 
-        Velocity velocity = store.getComponent(bobberRef, Velocity.getComponentType());
-        TransformComponent transform = store.getComponent(bobberRef, TransformComponent.getComponentType());
+        //if bobber
+        Velocity velocity = store.getComponent(tickRef, Velocity.getComponentType());
+        TransformComponent transform = store.getComponent(tickRef, TransformComponent.getComponentType());
         Vector3d bobberPosition = transform.getPosition();
         World world = bobberComp.world();
 
