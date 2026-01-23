@@ -1,9 +1,9 @@
 {
   "Animations": {
     "Idle": {
-      "FirstPerson": "Characters/Idle_FPS.blockyanim",
+      "FirstPerson": "Characters/Rod_First_Person.blockyanim",
       "Speed": 0.2,
-      "ThirdPerson": "Characters/Animations/Items/Main_Handed/Sword/Idle.blockyanim",
+      "ThirdPerson": "Characters/Rod_Third_Person.blockyanim",
       "Looping": true
     }
   },
