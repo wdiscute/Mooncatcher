@@ -44,6 +44,12 @@
         "Categories": [
           "Workbench_Survival"
         ]
+      },
+      {
+        "Id": "Angler",
+        "Categories": [
+          "Rods"
+        ]
       }
     ],
     "TimeSeconds": 1

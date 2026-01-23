@@ -52,3 +52,11 @@ Ward.description = A mysterious species of fish found in the Azure forests of Or
 
 Mooncatcher_Rod.name = Mooncatcher's rod
 Mooncatcher_Rod.description = A fishing rod made of minecraftium!
+
+Bench_Angler.name = Angler's Workbench
+Bench_Angler.description = A sturdy workbench used to craft all kinds of fish related equipment.
+
+Angler.Rods = Rods
+Angler.Hooks = Hooks
+Angler.Baits = Baits
+Angler.Wear = Wear

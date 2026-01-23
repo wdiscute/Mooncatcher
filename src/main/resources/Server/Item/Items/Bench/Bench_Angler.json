@@ -1,0 +1,170 @@
+{
+  "TranslationProperties": {
+    "Name": "mooncatcher.Bench_Angler.name",
+    "Description": "mooncatcher.Bench_Angler.description"
+  },
+  "Icon": "Icons/ItemsGenerated/Bench_Angler.png",
+  "Categories": [
+    "Furniture.Benches",
+    "Mooncatcher.Fishes"
+  ],
+  "Recipe": {
+    "TimeSeconds": 3,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Fibre",
+        "Quantity": 3
+      },
+      {
+        "ResourceTypeId": "Wood_Trunk",
+        "Quantity": 4
+      },
+      {
+        "ResourceTypeId": "",
+        "Quantity": 2,
+        "ItemId": "Ingredient_Stick"
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Type": "Crafting",
+        "Categories": [
+          "Workbench_Crafting"
+        ],
+        "Id": "Workbench"
+      }
+    ]
+  },
+  "BlockType": {
+    "Material": "Solid",
+    "DrawType": "Model",
+    "Opacity": "Transparent",
+    "CustomModel": "Items/bench/Angler.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Items/bench/bench.png",
+        "Weight": 1
+      }
+    ],
+    "VariantRotation": "NESW",
+    "HitboxType": "Bench_Workbench",
+    "Bench": {
+      "Type": "Crafting",
+      "Categories": [
+        {
+          "Id": "Rods",
+          "Icon": "Icons/CraftingCategories/Mooncatcher_Rod.png",
+          "Name": "mooncatcher.Angler.Rods"
+        },
+        {
+          "Id": "Hooks",
+          "Name": "mooncatcher.Angler.Hooks"
+        },
+        {
+          "Id": "Baits",
+          "Name": "mooncatcher.Angler.Baits"
+        },
+        {
+          "Id": "Wear",
+          "Name": "mooncatcher.Angler.Wear"
+        }
+      ],
+      "LocalOpenSoundEventId": "SFX_Armour_Bench_Open",
+      "LocalCloseSoundEventId": "SFX_Armour_Bench_Close",
+      "CompletedSoundEventId": "SFX_Armour_Bench_Craft",
+      "BenchUpgradeSoundEventId": "SFX_Workbench_Upgrade_Start_Default",
+      "BenchUpgradeCompletedSoundEventId": "SFX_Workbench_Upgrade_Complete_Default",
+      "Id": "Angler",
+      "TierLevels": [
+        {
+          "CraftingTimeReductionModifier": 0,
+          "UpgradeRequirement": {
+            "Material": [
+              {
+                "Quantity": 5,
+                "ResourceTypeId": "Fish_Uncommon"
+              }
+            ],
+            "TimeSeconds": 3
+          }
+        },
+        {
+          "UpgradeRequirement": {
+            "Material": [
+              {
+                "ResourceTypeId": "Fish_Rare",
+                "Quantity": 5
+              }
+            ],
+            "TimeSeconds": 3
+          }
+        },
+        {
+          "UpgradeRequirement": {
+            "Material": [
+              {
+                "ResourceTypeId": "Fish_Epic",
+                "Quantity": 5
+              }
+            ],
+            "TimeSeconds": 3
+          }
+        },
+        {
+          "UpgradeRequirement": {
+            "Material": [
+              {
+                "ResourceTypeId": "Fish_Legendary",
+                "Quantity": 5
+              }
+            ],
+            "TimeSeconds": 3
+          }
+        }
+      ]
+    },
+    "State": {
+      "Id": "crafting",
+      "Definitions": {
+        "CraftCompleted": {
+          "CustomModelAnimation": "Blocks/Benches/Armor_Crafting.blockyanim",
+          "Looping": true
+        },
+        "CraftCompletedInstant": {
+          "CustomModelAnimation": "Blocks/Benches/Armor_Crafting.blockyanim"
+        }
+      }
+    },
+    "BlockParticleSetId": "Wood",
+    "ParticleColor": "#64482d",
+    "Support": {
+      "Down": [
+        {
+          "FaceType": "Full"
+        }
+      ]
+    },
+    "BlockSoundSetId": "Wood"
+  },
+  "PlayerAnimationsId": "Block",
+  "IconProperties": {
+    "Scale": 0.33,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      9.6,
+      -18.6
+    ]
+  },
+  "Tags": {
+    "Type": [
+      "Bench"
+    ]
+  },
+  "MaxStack": 1,
+  "ItemLevel": 2,
+  "ItemSoundSetId": "ISS_Blocks_Wood"
+}
