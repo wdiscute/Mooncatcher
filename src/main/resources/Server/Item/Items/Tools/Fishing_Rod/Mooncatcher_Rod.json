@@ -58,5 +58,8 @@
     "Mooncatcher.Fishes"
   ],
   "Scale": 1,
-  "MaxStack": 1
+  "MaxStack": 1,
+  "PlayerAnimationsId": {
+    "Parent": "Rod"
+  }
 }
