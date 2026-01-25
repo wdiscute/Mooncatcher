@@ -1,14 +1,14 @@
 {
   "Parent": "Template_Fish_Item",
-  "Quality": "Epic",
+  "Quality": "Common",
   "TranslationProperties": {
-    "Name": "mooncatcher.Vesani.name",
-    "Description": "mooncatcher.Vesani.description"
+    "Name": "mooncatcher.Big_Bass_Bill.name",
+    "Description": "mooncatcher.Big_Bass_Bill.description"
   },
-  "Model": "NPC/Fishes/Vesani/Vesani.blockymodel",
-  "Texture": "NPC/Fishes/Vesani/Vesani.png",
+  "Model": "NPC/Fishes/Big_Bass_Bill/Big_Bass_Bill.blockymodel",
+  "Texture": "NPC/Fishes/Big_Bass_Bill/Big_Bass_Bill.png",
   "Animation": "NPC/Swimming_Wildlife/Bluegill/Animations/Swim/Swim.blockyanim",
-  "Icon": "Icons/ItemsGenerated/Vesani.png",
+  "Icon": "Icons/ItemsGenerated/Big_Bass_Bill.png",
   "IconProperties": {
     "Scale": 0.4,
     "Rotation": [
@@ -26,7 +26,7 @@
       "Interactions": [
         {
           "Parent": "SpawnNPC_Entity_Default",
-          "EntityId": "Vesani",
+          "EntityId": "Big_Bass_Bill",
           "SpawnOffset": {
             "X": 0,
             "Y": 1,

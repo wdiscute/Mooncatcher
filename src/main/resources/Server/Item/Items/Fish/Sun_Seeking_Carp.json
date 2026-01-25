@@ -1,6 +1,6 @@
 {
   "Parent": "Template_Fish_Item",
-  "Quality": "Uncommon",
+  "Quality": "Common",
   "TranslationProperties": {
     "Name": "mooncatcher.Sun_Seeking_Carp.name",
     "Description": "mooncatcher.Sun_Seeking_Carp.description"

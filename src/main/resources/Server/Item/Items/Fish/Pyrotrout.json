@@ -1,6 +1,6 @@
 {
   "Parent": "Template_Fish_Item",
-  "Quality": "Uncommon",
+  "Quality": "Rare",
   "TranslationProperties": {
     "Name": "mooncatcher.Pyrotrout.name",
     "Description": "mooncatcher.Pyrotrout.description"

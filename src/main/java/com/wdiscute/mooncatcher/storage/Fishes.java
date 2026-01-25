@@ -27,7 +27,7 @@ public class Fishes extends DatapackProvider<FishProperties>
     {
         List<FishProperties> list = FishProperties.getFishesForRestrictions(world, blockPos);
 
-        if(list.isEmpty()) return ItemStack.EMPTY;
+        if (list.isEmpty()) return ItemStack.EMPTY;
 
         return InventoryHelper.createItem(list.get(U.r.nextInt(list.size() - 1)).catchInfo.fish);
     }
@@ -55,11 +55,26 @@ public class Fishes extends DatapackProvider<FishProperties>
                 .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_RIVERS)
         );
 
+        register(overworldZone1Fish("Downfall_Bream")
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_RIVERS)
+                .withDaytime(FishProperties.Daytime.NIGHT)
+        );
+
+        //high elevation
+        register(overworldZone1Fish("Aetherian_Angelfish")
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_MOUNTAINS)
+        );
+
+
         //ZONE 1 AUTUMN
         register(overworldZone1Fish("Petaldrift_Carp")
                 .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_RIVERS)
         );
 
+        //ZONE 1 SWAMP
+        register(overworldZone1Fish("Sludge_Catfish")
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_RIVERS)
+        );
 
         //ZONE 1 AZURE
         register(overworldZone1Fish("Vesani")
@@ -70,61 +85,88 @@ public class Fishes extends DatapackProvider<FishProperties>
                 .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_AZURE)
         );
 
-        //ZONE 1 VOLCANIC
+        //ZONE 1 CAVES FORESTS
+
+        //ZONE 1 CAVES SWAMP
+        register(overworldZone1Fish("Lush_Pike")
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_CAVES_SWAP)
+        );
+
+        //ZONE 1 VOLCANIC CAVES
         register(overworldZone1Fish("Pyrotrout")
-                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_CAVES)
-                .withDaytime(FishProperties.Daytime.DAY)
-                .withRarity(FishProperties.Rarity.RARE)
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_CAVES_VOLCANIC)
         );
 
         register(overworldZone1Fish("Basaltish")
-                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_CAVES)
-                .withDaytime(FishProperties.Daytime.DAY)
-                .withRarity(FishProperties.Rarity.RARE)
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_CAVES_VOLCANIC)
         );
 
         register(overworldZone1Fish("Scalding_Pike")
-                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_CAVES)
-                .withDaytime(FishProperties.Daytime.DAY)
-                .withRarity(FishProperties.Rarity.RARE)
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_1_CAVES_VOLCANIC)
         );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //ZONE 2
         register(overworldZone1Fish("Sun_Seeking_Carp")
                 .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_2)
+        );
+
+        register(overworldZone1Fish("Mirage_Carp")
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_2)
+        );
+
+        register(overworldZone1Fish("Sunny_Sturgeon")
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_2)
                 .withDaytime(FishProperties.Daytime.DAY)
-                .withRarity(FishProperties.Rarity.RARE)
         );
 
         //ZONE 2 DESERTS
         register(overworldZone1Fish("Sphynx")
                 .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_2_DESERTS)
-                .withDaytime(FishProperties.Daytime.DAY)
-                .withRarity(FishProperties.Rarity.RARE)
+        );
+
+        register(overworldZone1Fish("Cactifish")
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_2_DESERTS)
         );
 
         //ZONE 2 SAVANNA
         register(overworldZone1Fish("Suneater")
                 .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_2_DESERTS)
-                .withDaytime(FishProperties.Daytime.DAY)
-                .withRarity(FishProperties.Rarity.RARE)
         );
 
 
-        //ZONE 3 GLACIAL
-        register(overworldZone1Fish("Aurora")
-                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_3_GLACIAL)
-        );
 
 
-        //ZONE 3 SHORE
-        register(overworldZone1Fish("Azure_Crystalback_Minnow")
-                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_3_SHORE)
-        );
+
+
+
+
+
 
 
         //ZONE 3 EVERYWHERE
+        register(overworldZone1Fish("Frostjaw_Trout")
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_3)
+        );
+
         register(overworldZone1Fish("Crystalback_Minnow")
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_3)
+        );
+
+        register(overworldZone1Fish("Boreal")
                 .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_3)
         );
 
@@ -132,19 +174,40 @@ public class Fishes extends DatapackProvider<FishProperties>
                 .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_3)
         );
 
+        //ZONE 3 GLACIAL
+        register(overworldZone1Fish("Aurora")
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_3_GLACIAL)
+        );
+
+        register(overworldZone1Fish("Wintery_Pike")
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_3_GLACIAL)
+        );
+
+        //ZONE 3 SHORE
+        register(overworldZone1Fish("Azure_Crystalback_Minnow")
+                .withWorldRestrictions(FishProperties.WorldRestrictions.ZONE_3_SHORE)
+        );
+
+
+
+
+
+
+
+
 
 
         //OCEANS
         register(overworldZone1Fish("Ironjaw_Herring")
                 .withWorldRestrictions(FishProperties.WorldRestrictions.OCEANS)
-                .withDaytime(FishProperties.Daytime.DAY)
-                .withRarity(FishProperties.Rarity.RARE)
+        );
+
+        register(overworldZone1Fish("Big_Bass_Bill")
+                .withWorldRestrictions(FishProperties.WorldRestrictions.OCEANS)
         );
 
         register(overworldZone1Fish("Redscaled_Tuna")
                 .withWorldRestrictions(FishProperties.WorldRestrictions.OCEANS)
-                .withDaytime(FishProperties.Daytime.DAY)
-                .withRarity(FishProperties.Rarity.RARE)
         );
 
     }

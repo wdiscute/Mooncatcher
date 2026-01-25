@@ -315,7 +315,35 @@ public class FishProperties implements DatapackEntry
                 Integer.MIN_VALUE);
 
         public static final WorldRestrictions ZONE_1_CAVES = new WorldRestrictions(
-                List.of("#Env_Zone1_Caves"),
+                List.of("#Env_Zone1_Cave"),
+                List.of(),
+                List.of("Water"),
+                Integer.MAX_VALUE,
+                Integer.MIN_VALUE);
+
+        public static final WorldRestrictions ZONE_1_MOUNTAINS = new WorldRestrictions(
+                List.of("#Env_Zone1_Mountains"),
+                List.of(),
+                List.of("Water"),
+                Integer.MAX_VALUE,
+                Integer.MIN_VALUE);
+
+        public static final WorldRestrictions ZONE_1_CAVES_VOLCANIC = new WorldRestrictions(
+                List.of("#Env_Zone1_Caves_Volcanic"),
+                List.of(),
+                List.of("Water"),
+                Integer.MAX_VALUE,
+                Integer.MIN_VALUE);
+
+        public static final WorldRestrictions ZONE_3_CAVES_VOLCANIC = new WorldRestrictions(
+                List.of("#Env_Zone3_Caves_Volcanic"),
+                List.of(),
+                List.of("Water"),
+                Integer.MAX_VALUE,
+                Integer.MIN_VALUE);
+
+        public static final WorldRestrictions ZONE_1_CAVES_SWAP = new WorldRestrictions(
+                List.of("#Env_Zone1_Caves_Swamps"),
                 List.of(),
                 List.of("Water"),
                 Integer.MAX_VALUE,
